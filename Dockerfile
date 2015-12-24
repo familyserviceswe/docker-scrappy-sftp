@@ -12,7 +12,7 @@ VOLUME      ["/sftp-root", "/creds"]
 # Install dependencies.
 RUN DEBIAN_FRONTEND=noninteractive \
     apt-get update && \
-    apt-get install -y --no-install-recommends openssh-server supervisor python3 ssmtp rsync inotify-tools && \
+    apt-get install -y --no-install-recommends openssh-server supervisor python3 ssmtp rsync inotify-tools openssl && \
     mkdir -p /var/run/sshd && \
     # The sftp group is for all SFTP users including sftpadmin.
     groupadd sftp
@@ -37,3 +37,4 @@ COPY        supervisord.conf /etc/supervisor/conf.d/scrappysftp.conf
 
 # Add transfer log mailer daemon and utility scripts.
 COPY        bin/* /usr/local/bin/
+RUN         chmod +x /usr/local/bin/*
