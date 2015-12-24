@@ -30,9 +30,9 @@ jail_dev_dir = jail_root + '/' + DEV_DIR
 if call(['id', username]) == 0:
     sys.exit('User {} already exists'.format(username))
 # Create jailed and home directories so skeleton files won't be copied into it.
-# os.makedirs(home_dir)
+os.makedirs(home_dir)
 # Create dev dir for logging
-# os.mkdir(jail_dev_dir)
+os.mkdir(jail_dev_dir)
 # Create user.
 check_call(['useradd', '--key', 'UID_MIN=15000', '--create-home', '--home-dir', home_dir, '--shell', '/bin/false', '--groups', SFTP_GROUP, username])
 # Home directory should be owned by user and sftp group.
