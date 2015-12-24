@@ -34,7 +34,7 @@ if call(['id', username]) == 0:
 # Create dev dir for logging
 # os.mkdir(jail_dev_dir)
 # Create user.
-check_call(['adduser', '--home', home_dir, '--shell', '/bin/false', '--ingroup', SFTP_GROUP, username])
+check_call(['adduser', '--key', 'UID_MIN=15000', '--home', home_dir, '--shell', '/bin/false', '--ingroup', SFTP_GROUP, username])
 # Home directory should be owned by user and sftp group.
 check_call(['chown', '-R', username + ':' + SFTP_GROUP, home_dir])
 # Child files should inherit parent's group even if written to by a different user (like Amy).
