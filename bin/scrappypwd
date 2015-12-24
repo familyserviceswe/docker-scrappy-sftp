@@ -1,0 +1,32 @@
+#!/bin/bash
+#
+# ##
+# Handle changing user password.
+# ##
+
+while getopts ":u:p:h" opt; do
+    case "$opt" in
+    u)
+        USERNAME=$OPTARG
+        ;;
+    p)
+        PASSWORD=$OPTARG
+        ;;
+    h)
+        echo -e "Usage: scrappypwd -u <username> -p <new password>"
+        exit 0
+        ;;
+    :)
+        echo -e "Missing required value for $OPTARG"
+        exit 1
+        ;;
+    esac
+done
+
+id -u $USERNAME &>/dev/null
+if [ $? -ne 0 ]; then
+    echo -e "That user does not exist on the system."
+    exit 1
+fi
+
+echo -e "$PASSWORD\n$PASSWORD" | (passwd $USERNAME)
