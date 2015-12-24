@@ -19,6 +19,7 @@ RUN DEBIAN_FRONTEND=noninteractive \
 
 # Reconfigure sshd to use in-process SFTP server and chroot the sftp group.
 RUN sed -e 's|\(Subsystem sftp \).*|\1internal-sftp -l INFO|' -i /etc/ssh/sshd_config && \
+    sed -i 's/^UID_MIN.*/UID_MIN                 10000/' /etc/login.defs && \
     echo '\n# SFTP Jailed users' >>/etc/ssh/sshd_config && \
     echo '\nMatch user sftpadmin' >>/etc/ssh/sshd_config && \
     echo '    ChrootDirectory /sftp-root' >>/etc/ssh/sshd_config && \
