@@ -1,0 +1,37 @@
+#!/bin/bash
+#
+# ##
+# Handle deleting user.
+# ##
+
+while getopts ":u:h" opt; do
+    case "$opt" in
+    u)
+        USERNAME=$OPTARG
+        ;;
+    h)
+        echo -e "Usage: scrappydel -u <username>"
+        exit 0
+        ;;
+    :)
+        echo -e "Missing required value for $OPTARG"
+        exit 1
+        ;;
+    esac
+done
+
+id -u $USERNAME &>/dev/null
+if [ $? -ne 0 ]; then
+    echo -e "That user does not exist on the system."
+    exit 1
+fi
+
+USERID=`id -u $USERNAME`
+
+if [ $USERID -lt 15000 ]; then
+    echo -e "That user is protected."
+    exit 1
+fi;
+
+rm -rf /sftp-root/$USERNAME
+userdel $USERNAME
