@@ -4,8 +4,7 @@
 # Handle adding a new user to the system.
 # ##
 SFTP_ROOT='/sftp-root/'
-SFTP_GROUP='sftp'
-SFTP_DATA_DIR='/data'
+SFTP_GROUP='www-data'
 UID_MINIMUM=15000
 
 while getopts ":u:p:h" opt; do
@@ -33,39 +32,19 @@ if [ $? -eq 0 ]; then
     exit 1
 fi
 
-SFTP_USER_HOME=$SFTP_ROOT$USERNAME
-SFTP_USER_DATA=$SFTP_USER_HOME$SFTP_DATA_DIR
-
 function checkResponseCode() {
     if [ $? -ne 0 ]; then
         echo -e "An error occured, rolling back..."
         userdel -r $USERNAME &>/dev/null
-        rm -rf $SFTP_USER_HOME &>/dev/null
         exit 1
     fi
 }
 
-mkdir -p $SFTP_USER_HOME
+useradd -K UID_MIN=$UID_MINIMUM -m -d $SFTP_ROOT -s /bin/false -p $(openssl passwd -1 $PASSWORD) -G $SFTP_GROUP $USERNAME
 checkResponseCode
 
-useradd -K UID_MIN=$UID_MINIMUM -m -d $SFTP_USER_HOME -s /bin/false -p $(openssl passwd -1 $PASSWORD) -G $SFTP_GROUP $USERNAME
+chown -R root:$SFTP_GROUP $SFTP_ROOT
 checkResponseCode
 
-# /sftp-root/username
-chown root:root $SFTP_USER_HOME
+chmod -R 775 $SFTP_ROOT
 checkResponseCode
-
-chmod 755 $SFTP_USER_HOME
-checkResponseCode
-
-# /sftp-root/username/data
-mkdir -p $SFTP_USER_DATA
-checkResponseCode
-
-chown -R $USERNAME:$SFTP_GROUP $SFTP_USER_DATA
-checkResponseCode
-
-chmod -R u+rwx,g+rwxs $SFTP_USER_DATA
-checkResponseCode
-
-refreshchrootloglinks
