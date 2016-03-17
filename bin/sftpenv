@@ -9,8 +9,8 @@ if [[ $EUID -ne 0 ]]; then
 fi
 
 # Make sure directory exists for log socket
-if [ ! -d "/sftp-root/sftp-logs" ]; then
-  mkdir /sftp-root/sftp-logs
+if [ ! -d "/sftp-root/dev/log" ]; then
+  mkdir -p /sftp-root/dev/log
 fi
 
 # Regenerate SSH server key if we haven't already.
