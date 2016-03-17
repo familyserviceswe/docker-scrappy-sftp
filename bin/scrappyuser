@@ -3,7 +3,7 @@
 # ##
 # Handle adding a new user to the system.
 # ##
-SFTP_ROOT='/sftp-root/'
+SFTP_ROOT='/sftp-root'
 SFTP_GROUP='www-data'
 UID_MINIMUM=15000
 
