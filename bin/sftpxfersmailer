@@ -31,7 +31,7 @@ import queue
 
 
 # Environment settings and constants.
-UNIX_SOCKET = '/sftp-root/dev/log'
+UNIX_SOCKET = '/sftp-root/sftp-logs'
 MAIL_CMD = ['sendmail']
 UNPRIV_USER = 'nobody'
 UNPRIV_GROUP = 'nogroup'
