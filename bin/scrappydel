@@ -33,5 +33,4 @@ if [ $USERID -lt 15000 ]; then
     exit 1
 fi;
 
-rm -rf /sftp-root/$USERNAME
 userdel $USERNAME
