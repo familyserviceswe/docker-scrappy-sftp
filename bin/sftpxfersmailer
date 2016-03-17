@@ -32,7 +32,6 @@ import queue
 
 # Environment settings and constants.
 UNIX_SOCKET = '/sftp-root/dev/log'
-REFRESH_CHROOT_LOG_LINKS_CMD = ['refreshchrootloglinks']
 MAIL_CMD = ['sendmail']
 UNPRIV_USER = 'nobody'
 UNPRIV_GROUP = 'nogroup'
@@ -276,7 +275,6 @@ if __name__ == "__main__":
         os.remove(UNIX_SOCKET)
     server = socketserver.UnixDatagramServer(UNIX_SOCKET, SftpMailerRequestHandler)
     os.chmod(UNIX_SOCKET, 0o666)
-    subprocess.check_call(REFRESH_CHROOT_LOG_LINKS_CMD)
     drop_privileges()
     logging.info('Dropped privileges and started listening on socket: %s', UNIX_SOCKET)
     try:
