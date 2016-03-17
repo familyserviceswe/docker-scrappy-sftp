@@ -13,7 +13,7 @@ VOLUME      ["/sftp-root", "/creds"]
 RUN DEBIAN_FRONTEND=noninteractive \
     apt-get update && \
     apt-get install -y --no-install-recommends openssh-server supervisor python3 ssmtp rsync inotify-tools openssl && \
-    mkdir -p /var/run/sshd && \
+    mkdir -p /var/run/sshd
 
 # Reconfigure sshd to use in-process SFTP server and chroot the sftp group.
 RUN sed -e 's|\(Subsystem sftp \).*|\1internal-sftp -l INFO|' -i /etc/ssh/sshd_config && \
