@@ -7,7 +7,7 @@ MAINTAINER  nebajoth <nebajoth@gmail.com>
 EXPOSE      22
 
 # Volumes hold privates SFTP directories of each user and user/group/host credentials.
-VOLUME      ["/var/www/html", "/creds"]
+VOLUME      ["/sftp-root/webroot", "/creds"]
 
 # Install dependencies.
 RUN DEBIAN_FRONTEND=noninteractive \
@@ -20,7 +20,7 @@ RUN sed -e 's|\(Subsystem sftp \).*|\1internal-sftp -l INFO|' -i /etc/ssh/sshd_c
     echo '\nMatch group www-data' >>/etc/ssh/sshd_config && \
     echo '    X11Forwarding no' >>/etc/ssh/sshd_config && \
     echo '    AllowTcpForwarding no' >>/etc/ssh/sshd_config && \
-    echo '    ChrootDirectory /var/www/html' >>/etc/ssh/sshd_config && \
+    echo '    ChrootDirectory /sftp-root' >>/etc/ssh/sshd_config && \
     echo '    AuthorizedKeysFile /etc/ssh/ssh_host_authorized_keys' >>/etc/ssh/sshd_config && \
     echo '    ForceCommand internal-sftp -l INFO' >>/etc/ssh/sshd_config && \
     # Make all files group writeable so they can be modified by either sftpadmin or the unprivileged users.
