@@ -1,4 +1,5 @@
 creds
 sftp-root
 ssmtp.conf
+/var/www/html
 .idea
