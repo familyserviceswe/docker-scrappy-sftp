@@ -43,10 +43,13 @@ function checkResponseCode() {
 useradd -K UID_MIN=$UID_MINIMUM -m -d $SFTP_ROOT -s /bin/false -p $(openssl passwd -1 $PASSWORD) -G $SFTP_GROUP $USERNAME
 checkResponseCode
 
-chown -R root:$SFTP_GROUP $SFTP_ROOT
+chown root:$SFTP_GROUP $SFTP_ROOT
 checkResponseCode
 
 chmod 755 $SFTP_ROOT
+checkResponseCode
+
+chown -R www-data:www-data $SFTP_ROOT/*
 checkResponseCode
 
 chmod -R 775 $SFTP_ROOT/*
